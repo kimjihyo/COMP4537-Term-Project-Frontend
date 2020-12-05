@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <title>Movie Review Website</title>
+</head>
+<style>
+    * {
+        outline: none;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        color: #ececec;
+    }
+    body {
+        background-color: #222831;
+    }
+    a {
+        color: #ececec;
+    }
+    #container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #header {
+        padding: 0px 1.5em;
+        height: 70px;
+        background-color: #30475e;
+        display: flex;
+        align-items: center;
+    }
+    #footer {
+        padding: 0px 1.5em;
+        height: 70px;
+        background-color: #30475e;
+        display: flex;
+        align-items: center;     
+        justify-content: center; 
+    }
+    #appTitle {
+        font-size: 20px;
+        font-weight: 900;
+        color: #f2a365;
+    }
+    #movieReviewList {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px 0px;
+    }
+    #loginModal {
+        border-radius: 4px;
+        background-color: #30475e;
+        position: absolute;
+        top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 4rem;
+        padding-top: 2rem;
+        -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.43); 
+        box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.43);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    textarea {
+        color: black;
+        resize: none;
+        padding: 12px 20px;
+    }
+    #inputLabel {
+        font-size: 18px;
+    }
+    .submitButton {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        margin: 12px 0px;
+        font-weight: bold;
+        background-color: #222831;    
+    }
+    .textInput {
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+        color: black;
+    }  
+    #loginEmailSubmit:hover {
+        cursor: pointer;
+    }
+    #createReviewModal {
+        border-radius: 4px;
+        background-color: #30475e;
+        position: absolute;
+        top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1rem;
+        padding-top: 2rem;
+        -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.43); 
+        box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.43);
+        width: 300px;
+        height: 300px;
+    }
+    #errorMessage {
+        background-color: #e53935;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        margin: 12px;
+    }
+    .movieReview {
+        width: 90%;
+        max-width: 600px;
+        min-height: 200px;
+        background-color: #393e46;
+        margin: 20px 0px;
+        padding: 12px;
+        border-radius: 4px;
+    }
+    .button {
+        color: #ececec;
+        background-color: #222831;
+        padding: 12px;
+        margin: 0px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        text-align: center;
+    }
+    .button:hover {
+        cursor: pointer;
+    }
+    .title {
+        margin: 12px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .authorEmail {
+        margin: 12px;
+        font-size: 14px;
+    }
+    .reviewBody {
+        margin: 12px;
+        font-size: 15px;
+    }
+    .reviewActionRow {
+        display: flex;
+        margin: 24px 6px;
+        margin-bottom: 4px;
+    }
+</style>
+<body>
+    <div id="header">
+        <div id="appTitle">Movie Reviews</div>
+        <div id="signInButton" class="button" style="margin-left: auto;">Sign In</div>
+        <div class="button" id="createButton" style="margin-left: auto; margin-right: 12px;">WRITE</div>
+        <div class="button" id="signoutButton" style="margin-right: 12px;">SIGN OUT</div>
+        <div id="userInfo"></div>
+    </div>
+    <div id="container">
+        <div id="movieReviewList">
+        </div>
+        <div id="loginModal">
+            <form id="loginForm">
+                <label class="textLabel" id="loginEmailLabel" for="emailInput">Email</label>
+                <input class="textInput" id="loginEmailInput" type="text" id="emailInput" name="emailInput">
+                <input class="submitButton" id="loginEmailSubmit" type="submit" value="Submit">
+            </form>
+        </div>
+        <div id="createReviewModal">
+            <form id="createReviewModalForm">
+                <label class="inputLabel" id="titleLabel" for="titleLabel">Title</label>
+                <input class="textInput" id="titleInput" type="text" id="titleInput" name="titleInput">
+                <label>Body</label>
+                <textarea id="reviewBodyTextArea" rows="4"></textarea>
+                <input class="submitButton" id="createReviewSubmit" type="submit" value="Submit">
+                <div class="button" id="createReviewModalCancelButton">CANCEL</div>
+            </form>
+        </div>
+    </div>
+    <div id="footer">
+        Created by Jihyo Kim and Spensor Wilson as a part of BCIT COMP-4573
+    </div>
+    <script>
+        
+        const renderCreateReviewModal = (title, body, id) => {
+            const reviewModal = document.getElementById('createReviewModal');
+            const titleInput = document.getElementById('titleInput');
+            const reviewBodyTextArea = document.getElementById('reviewBodyTextArea');
+            const cancelButton = document.getElementById('createReviewModalCancelButton');
+            const submitButton = document.getElementById('createReviewSubmit');
+
+            let mode = 'edit';
+
+            if (title === '') {
+                mode = 'create';
+            }
+
+            console.log(mode);
+
+            reviewModal.style.display = 'block';
+            titleInput.value = title;
+            reviewBodyTextArea.value = body;
+
+            cancelButton.onclick = () => {
+                reviewModal.style.display = 'none';
+            }
+
+            const header = {
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${sessionStorage.getItem('serviceToken')}`,
+            }
+
+            if (mode === 'create') {
+                submitButton.onclick = async (e) => {
+                    e.preventDefault();
+                    const payload = {
+                        title: titleInput.value,
+                        body: reviewBodyTextArea.value,
+                    }
+                    console.log(payload);
+                    console.log(header);
+                    const res = await fetch('http://localhost:3001/api/v1/movie_reviews', {
+                        method: 'POST',
+                        headers: header,
+                        body: JSON.stringify(payload),
+                    });
+                    const resJson = await res.json();
+                    console.log(resJson);
+                    renderMovieReviews(sessionStorage.getItem('serviceToken'));
+                    reviewModal.style.display = 'none';
+                }
+            } else if (mode === 'edit') {
+                submitButton.onclick = async (e) => {
+                    e.preventDefault();
+                    const payload = {
+                        title: titleInput.value,
+                        body: reviewBodyTextArea.value,
+                    }
+                    console.log(payload);
+                    console.log(header);
+                    const res = await fetch(`http://localhost:3001/api/v1/movie_reviews/${id}`, {
+                        method: 'PUT',
+                        headers: header,
+                        body: JSON.stringify(payload),
+                    });
+                    const resJson = await res.json();
+                    renderMovieReviews(sessionStorage.getItem('serviceToken'));
+                    reviewModal.style.display = 'none';
+                }
+            }
+        }
+
+        // Session storage needs to store serviceToken prior to using this function.
+        const renderMovieReviews = async (serviceToken) => {
+            const movieReviewList = document.getElementById('movieReviewList');
+            // const serviceToken = sessionStorage.getItem('serviceToken');
+
+            try {
+                movieReviewList.innerHTML = "";
+                const emailAddress = sessionStorage.getItem('email');
+
+                const res =  await fetch('http://localhost:3001/api/v1/movie_reviews', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${serviceToken}`
+                    },
+                });
+
+                const resJson = await res.json();
+                if (resJson.reviews) {
+                    for (let i = 0; i < resJson.reviews.length; i++) {
+                        let onEdit = null;
+                        let onDelete = null;
+
+                        if (emailAddress === resJson.reviews[i].email) {
+                            onEdit = (e) => {
+                                e.preventDefault();
+                                renderCreateReviewModal(resJson.reviews[i].title, resJson.reviews[i].body, resJson.reviews[i].id);
+                            }
+                            onDelete = async () => {
+                                const res = await fetch(`http://localhost:3001/api/v1/movie_reviews/${resJson.reviews[i].id}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Token ${serviceToken}`     
+                                    }
+                                });
+                                document.getElementById('createReviewModal').style.display = 'none';
+                                renderMovieReviews(sessionStorage.getItem('serviceToken'));
+                            }
+                        }
+
+                        movieReviewList.appendChild(createMovieReview(resJson.reviews[i].title, resJson.reviews[i].email, resJson.reviews[i].body, onEdit, onDelete));
+                    }
+                } else {
+                    console.log('error occurred');
+                }
+            } catch (error) {
+                const errorMessage = document.createElement('div');
+                errorMessage.id = 'errorMessage';
+                errorMessage.innerHTML = 'Failed to fetch movie reviews!';
+
+                movieReviewList.appendChild(errorMessage);
+            }
+        }
+        
+        
+        
+
+        const userInfoSection = document.getElementById('userInfo');
+        if (sessionStorage.getItem('serviceToken')) {
+            const serviceToken = sessionStorage.getItem('serviceToken');
+            const emailAddress = sessionStorage.getItem('email');
+            
+            document.getElementById('signoutButton').style.display = 'block';
+            document.getElementById('signInButton').style.display = 'none';
+            document.getElementById('createButton').style.display = 'block';
+            userInfoSection.style.display = 'block';
+            userInfoSection.innerHTML = emailAddress;
+
+            renderMovieReviews(serviceToken);
+
+            
+        } else {
+            userInfoSection.style.display = 'none';
+            
+            document.getElementById('signoutButton').style.display = 'none';
+            document.getElementById('createButton').style.display = 'none';
+            renderMovieReviews('a101a9e6-94d0-4cb0-b0ea-ce10435fdda8');
+        }
+
+        const createMovieReview = (titleText, emailText, bodyText, onEditClick, onDeleteClick) => {
+            const reviewContainer = document.createElement('div');
+            reviewContainer.className = 'movieReview';
+            
+            const title = document.createElement('div');
+            title.className = 'title';
+            title.innerHTML = titleText;
+
+            const email = document.createElement('div');
+            email.className = 'authorEmail';
+            email.innerHTML = emailText;
+
+            const reviewBody = document.createElement('div');
+            reviewBody.className = 'reviewBody';
+            reviewBody.innerHTML = bodyText;
+
+            const reviewActionRow = document.createElement('div');
+            reviewActionRow.className = 'reviewActionRow';
+
+            if (onEditClick) {
+                const editButton = document.createElement('div');
+                editButton.className = 'button';
+                editButton.onclick = onEditClick;
+                editButton.innerHTML = 'Edit';
+                reviewActionRow.appendChild(editButton);
+            }
+
+            if (onDeleteClick) {
+                const deleteButton = document.createElement('div');
+                deleteButton.className = 'button';
+                deleteButton.onclick = onDeleteClick;
+                deleteButton.innerHTML = 'Delete';
+                reviewActionRow.appendChild(deleteButton);
+            }
+
+            
+            reviewContainer.appendChild(title);
+            reviewContainer.appendChild(email);
+            reviewContainer.appendChild(reviewBody);
+            reviewContainer.appendChild(reviewActionRow);
+
+            return reviewContainer;
+        }
+
+
+        // State variables
+
+        let isModalOpen = false;
+
+        const movieReviewList = document.getElementById('movieReviewList');    
+        const signInButton = document.getElementById('signInButton');
+        const loginModal = document.getElementById('loginModal');
+        const signOutButton = document.getElementById('signoutButton');
+
+        document.getElementById('createReviewModal').style.display = 'none';
+        loginModal.style.display = 'none';
+
+        signInButton.onclick = (e) => {
+            isModalOpen = true;
+            loginModal.style.display = 'block';
+        }
+
+        signOutButton.onclick = (e) => {
+            sessionStorage.removeItem('serviceToken');
+            sessionStorage.removeItem('email');
+            document.getElementById('signInButton').style.display = 'block';
+            document.getElementById('signoutButton').style.display = 'none';
+            document.getElementById('createButton').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'none';
+            renderMovieReviews('a101a9e6-94d0-4cb0-b0ea-ce10435fdda8');
+        }
+
+        const emailInput = document.getElementById('loginEmailInput');
+        const loginForm = document.getElementById('loginForm');
+        loginForm.onsubmit = async (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            const emailAddress = emailInput.value;
+
+            try {
+                const res = await fetch('http://localhost:3001/api/v1/auth/service_token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: emailAddress,
+                        promocode: 'promocode',
+                    })
+                });
+
+                const resJson = await res.json();
+                console.log(resJson);                
+                
+                if (!resJson.serviceToken) {
+                    alert('Failed to login');
+                } else {
+                    sessionStorage.setItem('serviceToken', resJson.serviceToken);
+                    sessionStorage.setItem('email', resJson.email);
+
+                    // Update UI
+                    document.getElementById('createButton').style.display = 'block';
+                    userInfoSection.style.display = 'block';
+                    userInfoSection.innerHTML = resJson.email;
+                    signInButton.style.display = 'none';
+                    signOutButton.style.display = 'block';
+
+                    await renderMovieReviews(resJson.serviceToken);
+                }
+                emailInput.value = '';
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        document.getElementById('createReviewModalForm').onsubmit = (e) => {
+            e.preventDefault();
+        }
+
+        const writeButton = document.getElementById('createButton');
+        writeButton.onclick = (e) => {
+            e.preventDefault();
+            renderCreateReviewModal('', '', null);
+        }
+    </script>
+</body>
+</html>
