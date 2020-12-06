@@ -233,7 +233,7 @@
                     }
                     console.log(payload);
                     console.log(header);
-                    const res = await fetch('http://localhost:3001/api/v1/movie_reviews', {
+                    const res = await fetch('http://ec2-34-221-213-252.us-west-2.compute.amazonaws.com:3001/api/v1/movie_reviews', {
                         method: 'POST',
                         headers: header,
                         body: JSON.stringify(payload),
@@ -252,7 +252,7 @@
                     }
                     console.log(payload);
                     console.log(header);
-                    const res = await fetch(`http://localhost:3001/api/v1/movie_reviews/${id}`, {
+                    const res = await fetch(`http://ec2-34-221-213-252.us-west-2.compute.amazonaws.com:3001/api/v1/movie_reviews/${id}`, {
                         method: 'PUT',
                         headers: header,
                         body: JSON.stringify(payload),
@@ -273,7 +273,7 @@
                 movieReviewList.innerHTML = "";
                 const emailAddress = sessionStorage.getItem('email');
 
-                const res =  await fetch('http://localhost:3001/api/v1/movie_reviews', {
+                const res =  await fetch('http://ec2-34-221-213-252.us-west-2.compute.amazonaws.com:3001/api/v1/movie_reviews', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -293,7 +293,7 @@
                                 renderCreateReviewModal(resJson.reviews[i].title, resJson.reviews[i].body, resJson.reviews[i].id);
                             }
                             onDelete = async () => {
-                                const res = await fetch(`http://localhost:3001/api/v1/movie_reviews/${resJson.reviews[i].id}`, {
+                                const res = await fetch(`http://ec2-34-221-213-252.us-west-2.compute.amazonaws.com:3001/api/v1/movie_reviews/${resJson.reviews[i].id}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -424,7 +424,7 @@
             const emailAddress = emailInput.value;
 
             try {
-                const res = await fetch('http://localhost:3001/api/v1/auth/service_token', {
+                const res = await fetch('http://ec2-34-221-213-252.us-west-2.compute.amazonaws.com:3001/api/v1/auth/service_token', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
